@@ -1,0 +1,17 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Infinum Academy | DevOps</h1>
+
+Welcome to your new app.
+
+@inject NavigationManager NavigationManager;
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        NavigationManager.NavigateTo("/movies", forceLoad: true);
+    }
+}

@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IA.DevOps.Movies.Data.Db", "IA.DevOps.Movies.Data.Db\IA.DevOps.Movies.Data.Db.csproj", "{4D92391A-C545-48A8-B143-D71F0AF1A8EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IA.DevOps.Movies.Contracts", "IA.DevOps.Movies.Contracts\IA.DevOps.Movies.Contracts.csproj", "{BA681FBB-E1C0-4B5A-953B-E8ADCD37B73D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IA.DevOps.Movies.Services", "IA.DevOps.Movies.Services\IA.DevOps.Movies.Services.csproj", "{855A3043-6905-408E-972D-0955BAAAE528}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IA.DevOps.Movies.Data.AwsS3", "IA.DevOps.Movies.Data.AwsS3\IA.DevOps.Movies.Data.AwsS3.csproj", "{D86B1E37-14D1-43F4-8E61-4FF0463498B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{DAF7F852-2214-4CEF-A705-8FB80672BCC2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IA.DevOps.Movies.Data.LocalBLOB", "IA.DevOps.Movies.Data.LocalBLOB\IA.DevOps.Movies.Data.LocalBLOB.csproj", "{ABF82E20-3F63-49F4-AB9B-DF4A2FA4051C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IA.DevOps.Movies.Common", "IA.DevOps.Movies.Common\IA.DevOps.Movies.Common.csproj", "{AEF64544-D4DC-47B0-A2A9-634A22970E4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IA.DevOps.Movies.Web", "IA.DevOps.Movies.Web\IA.DevOps.Movies.Web.csproj", "{DB56D6E3-F3EB-47D2-BC90-DC3B64CD691C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5FCE071A-C30E-46FE-88FF-868C6E8A4A52}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IA.DevOps.Movies.Services.Tests", "IA.DevOps.Movies.Services.Tests\IA.DevOps.Movies.Services.Tests.csproj", "{A023E1AD-8CC4-49E4-94EC-C0B01573E387}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{61200DB4-F702-4426-94E5-642C2700A05D}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker-compose.yml = ..\docker-compose.yml
+		..\Dockerfile = ..\Dockerfile
+		..\Tests.Dockerfile = ..\Tests.Dockerfile
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D92391A-C545-48A8-B143-D71F0AF1A8EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D92391A-C545-48A8-B143-D71F0AF1A8EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D92391A-C545-48A8-B143-D71F0AF1A8EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D92391A-C545-48A8-B143-D71F0AF1A8EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA681FBB-E1C0-4B5A-953B-E8ADCD37B73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA681FBB-E1C0-4B5A-953B-E8ADCD37B73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA681FBB-E1C0-4B5A-953B-E8ADCD37B73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA681FBB-E1C0-4B5A-953B-E8ADCD37B73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{855A3043-6905-408E-972D-0955BAAAE528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{855A3043-6905-408E-972D-0955BAAAE528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{855A3043-6905-408E-972D-0955BAAAE528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{855A3043-6905-408E-972D-0955BAAAE528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D86B1E37-14D1-43F4-8E61-4FF0463498B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D86B1E37-14D1-43F4-8E61-4FF0463498B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D86B1E37-14D1-43F4-8E61-4FF0463498B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D86B1E37-14D1-43F4-8E61-4FF0463498B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF82E20-3F63-49F4-AB9B-DF4A2FA4051C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF82E20-3F63-49F4-AB9B-DF4A2FA4051C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF82E20-3F63-49F4-AB9B-DF4A2FA4051C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF82E20-3F63-49F4-AB9B-DF4A2FA4051C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF64544-D4DC-47B0-A2A9-634A22970E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF64544-D4DC-47B0-A2A9-634A22970E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF64544-D4DC-47B0-A2A9-634A22970E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF64544-D4DC-47B0-A2A9-634A22970E4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB56D6E3-F3EB-47D2-BC90-DC3B64CD691C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB56D6E3-F3EB-47D2-BC90-DC3B64CD691C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB56D6E3-F3EB-47D2-BC90-DC3B64CD691C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB56D6E3-F3EB-47D2-BC90-DC3B64CD691C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A023E1AD-8CC4-49E4-94EC-C0B01573E387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A023E1AD-8CC4-49E4-94EC-C0B01573E387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A023E1AD-8CC4-49E4-94EC-C0B01573E387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A023E1AD-8CC4-49E4-94EC-C0B01573E387}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DB56D6E3-F3EB-47D2-BC90-DC3B64CD691C} = {DAF7F852-2214-4CEF-A705-8FB80672BCC2}
+		{A023E1AD-8CC4-49E4-94EC-C0B01573E387} = {5FCE071A-C30E-46FE-88FF-868C6E8A4A52}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8453AC13-9778-4A22-8F75-AC18408DD9D2}
+	EndGlobalSection
+EndGlobal

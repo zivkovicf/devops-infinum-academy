@@ -1,0 +1,35 @@
+﻿@page "/movies"
+
+<PageTitle>Movies</PageTitle>
+
+<div class="text-left">
+    <h1 class="mb-5">
+        Movies
+        <a href="movies/create" class="btn btn-primary btn-sm">+ Add new</a>
+    </h1>
+
+    <div class="row">
+        @if (_movies == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            @foreach (var movie in _movies)
+            {
+                <div class="col-md-3 mb-5">
+                    <div class="card">
+                        <img class="card-img-top" src="@movie.ImageUrl" alt="@movie.Title">
+                        <div class="card-body">
+                            <div class="badge bg-primary float-end">@movie.Rating</div>
+                            <h5 class="card-title">@movie.Title (@movie.ReleasedYear)</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@movie.Genre</h6>
+                            <p class="card-text">@movie.Overview</p>
+                            <a href="movies/@movie.Id/edit" class="btn btn-primary">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

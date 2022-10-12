@@ -1,0 +1,126 @@
+﻿@page "/health-monitor"
+@using IA.DevOps.Movies.Common.Extensions
+@using System.Globalization
+
+<h1 class="mb-5">System Health Check</h1>
+
+@if (SystemInformation is not null)
+{
+    <div class="row">
+        <h2>Services</h2>
+
+        <br />
+        <br />
+
+        <div class="col-xl-6">
+            <h4>Database</h4>
+
+            <table>
+                <tr>
+                    <td><b>Database Hostname</b></td>
+                    <td>@SystemInformation.DatabaseHost</td>
+                </tr>
+                <tr>
+                    <td><b>Online</b></td>
+                    <td>
+                        @if (SystemInformation.DatabaseOnline)
+                        {
+                            <span>✅</span>
+                        }
+                        else
+                        {
+                            <span>❌</span>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-xl-6">
+            <h4>Storage</h4>
+
+            <table>
+                <tr>
+                    <td><b>AWS S3 Service URL</b></td>
+                    <td>@SystemInformation.AwsS3ServiceUrl</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="row">
+        <h2>Environment Variables (ACADEMY_*)</h2>
+
+        <br />
+        <br />
+
+        <div class="col-xl-6">
+            <table>
+                @foreach(var entry in SystemInformation.CustomEnvVariables)
+                {
+                    <tr>
+                        <td><b>@entry.Key</b></td>
+                        <td>@entry.Value</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="row">
+        <h2>CPU and RAM Monitor</h2>
+
+        <div class="col-md-12">
+            <table>
+                <tr>
+                    <td><b>CPU Utilization</b></td>
+                    <td>@string.Format("{0:0.##} %", SystemInformation.CPUUtilization)</td>
+                </tr>
+
+                <tr>
+                    <td>Total Processor Time</td>
+                    <td>@SystemInformation.TotalProcessorTime</td>
+                </tr>
+
+                <tr>
+                    <td>User Processor Time</td>
+                    <td>@SystemInformation.UserProcessorTime</td>
+                </tr>
+
+                <tr>
+                    <td>Privileged Processor Time</td>
+                    <td>@SystemInformation.PrivilegedProcessorTime</td>
+                </tr>
+
+                <tr>
+                    <td><b>Total Memory Size</b></td>
+                    <td>@string.Format( "{0:0.##} GB", BytesConverter.Gigabytes(SystemInformation.TotalMemorySize) )</td>
+                </tr>
+
+                <tr>
+                    <td><b>Physical Memory Usage</b></td>
+                    <td>@string.Format( "{0:0.##} MB", BytesConverter.Megabytes(SystemInformation.PhysicalMemoryUsage) )</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <IA.DevOps.Movies.Web.Pages.HealthCheck.Chart YAxisLabel="% CPU"
+                                                      XAxisLabel="CPU Utilization"
+                                                      SystemInformation="SystemInformation.CPUUtilization" />
+        </div>
+
+        <div class="col-md-6">
+            <IA.DevOps.Movies.Web.Pages.HealthCheck.Chart YAxisLabel="RAM (MB)"
+                                                      XAxisLabel="RAM Utilization"
+                                                      YAxisMax="BytesConverter.Megabytes(SystemInformation.TotalMemorySize)"
+                                                      SystemInformation="BytesConverter.Megabytes(SystemInformation.PhysicalMemoryUsage)" />
+        </div>
+    </div>
+}

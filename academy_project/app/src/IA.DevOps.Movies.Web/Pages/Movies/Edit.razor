@@ -1,0 +1,10 @@
+﻿@page "/movies/{Id:guid}/edit"
+
+<PageTitle>Edit</PageTitle>
+
+@if(_form is not null)
+{
+    <h1 class="mb-5">Edit - @_form.Title</h1>
+
+    <IA.DevOps.Movies.Web.Pages.Movies.Form FormObject="@_form" SubmitHandler="Update" />
+}

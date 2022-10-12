@@ -1,0 +1,110 @@
+﻿@using Blazorise.Charts.Streaming
+@using IA.DevOps.Movies.Contracts.DTOs
+
+@if (_chart is not null)
+{
+    <LineChart @ref="_chart" TItem="LiveDataPoint" OptionsObject="horizontalLineChartOptions">
+        <ChartStreaming 
+            TItem="LiveDataPoint"
+            Options="new ChartStreamingOptions { Delay = 2000 }"
+            Refreshed="OnHorizontalLineRefreshed"/>
+    </LineChart>
+}
+
+@code {
+    private LineChart<LiveDataPoint>? _chart = new();
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = ChartColor.FromRgba(255, 99, 132, 0.2f);
+
+    [Parameter]
+    public string BorderColor { get; set; } = ChartColor.FromRgba(255, 99, 132, 1f);
+
+    [Parameter]
+    public string YAxisLabel { get; set; } = "Y - axis";
+
+    [Parameter]
+    public string XAxisLabel { get; set; } = "X - axis";
+
+    [Parameter]
+    public double YAxisMax { get; set; } = 100;
+
+    [Parameter]
+    public double SystemInformation { get; set; } = default!;
+
+    public struct LiveDataPoint
+    {
+        public object X { get; set; }
+        public object Y { get; set; }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && _chart is not null)
+        {
+            await Task.WhenAll(HandleRedraw(_chart, GetLineChartDataset));
+        }
+    }
+
+    private async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>(BaseChart<TDataSet, TItem, TOptions, TModel> chart, params Func<TDataSet>[] getDataSets)
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.Clear();
+
+        await chart.AddLabelsDatasetsAndUpdate(new string[] { XAxisLabel }, getDataSets.Select(x => x.Invoke()).ToArray());
+    }
+
+    private LineChartDataset<LiveDataPoint> GetLineChartDataset()
+    {
+        return new LineChartDataset<LiveDataPoint>
+            {
+                Data = new List<LiveDataPoint>(),
+                Label = XAxisLabel,
+                BackgroundColor = (string)BackgroundColor,
+                BorderColor = (string)BorderColor,
+                Fill = true,
+                Tension = 0,
+                BorderDash = new List<int> { 8, 4 },
+            };
+    }
+
+    Task OnHorizontalLineRefreshed(ChartStreamingData<LiveDataPoint> data)
+    {
+        data.Value = new LiveDataPoint
+            {
+                X = DateTime.UtcNow,
+                Y = SystemInformation
+            };
+
+        return Task.CompletedTask;
+    }
+
+    private object horizontalLineChartOptions
+    {
+        get
+        {
+            return new
+            {
+                Scales = new
+                {
+                    Y = new
+                    {
+                        Title = new
+                        {
+                            Display = true,
+                            Text = YAxisLabel
+                        },
+                        Max = YAxisMax,
+                        Min = 0
+                    }
+                },
+                Interaction = new
+                {
+                    intersect = false
+                }
+            };
+        }
+    }
+}

@@ -1,0 +1,75 @@
+﻿@using IA.DevOps.Movies.Contracts.Forms
+
+<EditForm Model="FormObject" OnValidSubmit="SubmitHandler">
+    <FluentValidationValidator />
+
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <InputText @bind-Value="FormObject.Title" class="form-control" />
+        <ValidationMessage For="@(() => FormObject.Title)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Released Year</label>
+        <InputNumber @bind-Value="FormObject.ReleasedYear" class="form-control" />
+        <ValidationMessage For="@(() => FormObject.ReleasedYear)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Rating</label>
+        <InputNumber @bind-Value="FormObject.Rating" class="form-control" />
+        <ValidationMessage For="@(() => FormObject.Rating)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Genre</label>
+        <InputText @bind-Value="FormObject.Genre" class="form-control" />
+        <ValidationMessage For="@(() => FormObject.Genre)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Overview</label>
+        <InputText @bind-Value="FormObject.Overview" class="form-control" />
+        <ValidationMessage For="@(() => FormObject.Overview)" />
+    </div>
+
+    @if (FormObject.ImageUrl is not null)
+    {
+        <div class="mb-3">
+            <label for="image" class="form-label">Current Image</label>
+            <br />
+            <img src="@FormObject.ImageUrl" />
+        </div>
+    }
+
+    <div class="mb-3">/
+        <label for="image" class="form-label">Movie Image</label>
+        <br />
+        <InputFile OnChange="LoadImage" />
+        <br />
+        <ValidationMessage For="@(() => FormObject.Image)" />
+    </div>
+
+    <input type="submit" class="btn btn-primary" />
+    <br />
+    <br />
+</EditForm>
+
+@code {
+    [Parameter]
+    public MovieForm FormObject { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<EditContext> SubmitHandler { get; set; } = default!;
+
+    private const long MaxUploadedFileSize = 5 * 1024 * 1024; // 5MB
+
+    private async Task LoadImage(InputFileChangeEventArgs e)
+    {
+        FileStream fs = new(Path.GetTempFileName(), FileMode.Create);
+        await e.File.OpenReadStream(maxAllowedSize: MaxUploadedFileSize).CopyToAsync(fs);
+
+        fs.Seek(0, SeekOrigin.Begin);
+        FormObject.Image = fs;
+    }
+}
