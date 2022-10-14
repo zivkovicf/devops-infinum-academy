@@ -1,0 +1,21 @@
+Check which storage driver are you using?
+	overlay2
+Where did you find that info?
+	$ docker info
+
+How many layers does postgres 14.5 official image have?
+	13
+What other tags does that image have assigned?
+	14, latest, 14.5-bullseye, 14-bullseye, bullseye
+Which architectures are supported by postgres?
+	amd64, arm32v5, arm32v6, arm32v7, arm64v8, i386, mips64le, ppc64le, s390x
+
+
+  - Build the image and tag it with i1 tag
+	docker build --tag i1 .
+ - Modify the command which creates the last layer
+  - Build the image and tag it with i2 tag
+	docker build --tag i2 -f Dockerfile2 .
+
+How many new layers have been created?
+	1 new layer was created
