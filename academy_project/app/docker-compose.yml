@@ -1,3 +1,10 @@
 version: "3.9"
-
-# To be discussed during class
+services:
+  application: 
+    build: .
+    ports:
+      - 8080:80
+  database:
+    image: "postgres"
+    env_file:
+      - ../.env 
