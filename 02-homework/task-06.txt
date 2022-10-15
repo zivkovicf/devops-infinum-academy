@@ -1,0 +1,1 @@
+I would define path in env, that can be anywhere on disk. This way database data wont get wiped in case of executing docker system prune command. 
