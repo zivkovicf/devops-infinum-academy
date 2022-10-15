@@ -4,7 +4,14 @@ services:
     build: .
     ports:
       - 8080:80
+    networks:
+      - network
   database:
     image: "postgres"
     env_file:
       - ../.env 
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
