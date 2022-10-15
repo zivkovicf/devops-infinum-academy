@@ -1,0 +1,1 @@
+Main diffrence between user-defined and default bridge network is conneectivity. In user-defined bridge network containers can relosve each other by name or using alias while in default one containers can communice only via IP, and to use name or alias they must be linked manually (using --link flag)
