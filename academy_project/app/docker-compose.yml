@@ -15,10 +15,11 @@ services:
     networks:
       - network
     volumes:
-      - ${LOCAL_DB_PATH}:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
 networks:
   network:
     driver: bridge
 volumes:
   app:
+  database:
 
