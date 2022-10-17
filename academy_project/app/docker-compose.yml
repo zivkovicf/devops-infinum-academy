@@ -8,10 +8,12 @@ services:
       - network
     volumes:
       - app:/app/wwwroot
+    env_file:
+      - .env.application
   database:
     image: "postgres"
     env_file:
-      - .env 
+      - .env.db 
     networks:
       - network
     volumes:
