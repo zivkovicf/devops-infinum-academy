@@ -1,0 +1,25 @@
+ - What are the main components of GitHub actions?
+	Main componenst of Github actions are workflow, job, action, event and runner.
+	Workflow - configurable automated process that will run one or more jobs
+	Events - specific event in repository that triggers workflow run
+	Jobs - set of steps that execute on the same runer
+	Actions -  custom application for the GitHub Actions platform that performs a complex but frequently repeated task
+	Runner - server that runs wokrflow when the're triggered. Each runner can run a single job at a time 
+- Which action we must use before we can use repository code in our workflow jobs?
+	actions/checkout@v3
+ - Which step in your job would you use for a custom multiline bash command?
+	steps:
+	   run: |
+		multiline command
+		next line command
+		etc...	
+ - How would you upload an artifact from a build or a product of a simple command such as "echo "I'm an artifact!" > artifact.txt" to GitHub actions artifact storage? 
+	Using action actions/upload-artifact@v3 
+ - How would you use it in the next job of the workflow?
+	Using action actions/download-artifact@v3
+  - How would you download a GitHub actions artifact to your local workstation via web browser?
+	main page of repo -> actions -> select workflow -> pick from list of runs ->  under artifacts click and dowlnoad desired artifact
+- What is the current "Artifact and log retention" of GitHub actions for your repository?
+	90 days
+  - Is there a more sane and cost-efficient setting you would recommend for this simple project?
+	Currently, no
