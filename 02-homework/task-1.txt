@@ -1,0 +1,4 @@
+Pull the ubuntu image
+	$ docker pull ubuntu
+Run the container in interactive mode
+	$ docker run -it ubuntu
