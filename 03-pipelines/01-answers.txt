@@ -22,4 +22,4 @@
 - What is the current "Artifact and log retention" of GitHub actions for your repository?
 	90 days
   - Is there a more sane and cost-efficient setting you would recommend for this simple project?
-	Currently, no
+	Use cache while building image in github actions to reduce time needed for build. Lower time -> less minutes -> cheaper
