@@ -1,6 +1,7 @@
 name: 01-docker-build-on-PR
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "homework/*" ]
     paths:
@@ -11,7 +12,6 @@ on:
     paths:
       - "academy_project/app/src/**"
       - "academy_project/app/Dockerfile"
-  workflow_dispatch:
 
 jobs:
 
