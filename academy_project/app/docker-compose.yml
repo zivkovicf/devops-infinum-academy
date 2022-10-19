@@ -1,3 +1,29 @@
 version: "3.9"
+services:
+  application: 
+    build: .
+    ports:
+      - 8080:80
+    networks:
+      - network
+    volumes:
+      - app:/app/wwwroot
+    environment:
+      ConnectionStrings__MoviesDb: "Host=database;Username=postgres;Database=${POSTGRES_DB};Password=${POSTGRES_PASSWORD}"
+  database:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - network
+    volumes:
+      - database:/var/lib/postgresql/data
+networks:
+  network:
+    driver: bridge
+volumes:
+  app:
+  database:
 
-# To be discussed during class

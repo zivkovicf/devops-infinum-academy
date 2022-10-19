@@ -1,0 +1,2 @@
+Docker volumes are completely managed by docker as opposed to bind mounts that depend on host directory structure.
+Docker volumes sore data outside of containers writable layer, which reduces container size and data exists otsude of containers lifecycle.
