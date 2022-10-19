@@ -5,6 +5,7 @@ WORKDIR /app
 
 
 
+
 COPY src/ ./.
 
 WORKDIR /app/IA.DevOps.Movies.Web
