@@ -15,26 +15,62 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       -
-        name: Checkout 
+        name: Checkout
         uses: actions/checkout@v3
       -
-        name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        name: Build Image
+        run: docker build -t image ./academy_project/app
       -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        name: Save image
+        run: docker save image > image.tar
       -
-        name: Build and push
-        uses: docker/build-push-action@v3
+        name: Upload image artifact
+        uses: actions/upload-artifact@v3
         with:
-          context: ./academy_project/app
-          push: true
-          tags: zivkovicf/devops-academy:03-pipelines
+          name: image-artifact
+          path: image.tar
+  tag:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Dowload image artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: image-artifact
+      -
+        name: Load image
+        run: docker load -i image.tar
+      -
+        name: Tag image
+        run: docker tag image {{secrets.DOCKERHUB_USERNAME}}/devops-academy:03-pipelines
+      -
+        name: Save image
+        run: docker save {{secrets.DOCKERHUB_USERNAME}}/devops-academy:03-pipelines > tagged-image.tar
+      -
+        name: Save image artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: tagged-image-artifact
+          path: tagged-image.tar
+  push:
+    needs: tag
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Download image artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: tagged-image-artifact
+      -
+        name: Load image
+        run: docker load -i tagged-image.tar
+      -
+        name: Login to dockerhub
+        run: docker login --username {{secrets.DOCKERHUB_USERNAME}} --password {{secrets.DOCKERHUB_TOKEN}}
+      -
+        name: Push image
+        run: docker push {{secrets.DOCKERHUB_USERNAME}}/devops-academy:03-pipelines
