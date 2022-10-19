@@ -47,10 +47,10 @@ jobs:
         run: docker load -i image.tar
       -
         name: Tag image
-        run: docker tag image zivkovicf/devops-academy:03-pipelines
+        run: docker tag image ${{ secrets.DOCKERHUB_USERNAME }}/devops-academy:03-pipelines
       -
         name: Save image
-        run: docker save zivkovicf/devops-academy:03-pipelines > tagged-image.tar
+        run: docker save ${{ secrets.DOCKERHUB_USERNAME }}/devops-academy:03-pipelines > tagged-image.tar
       -
         name: Save image artifact
         uses: actions/upload-artifact@v3
@@ -71,7 +71,7 @@ jobs:
         run: docker load -i tagged-image.tar
       -
         name: Login to dockerhub
-        run: docker login --username {{ secrets.DOCKERHUB_USERNAME }} --password {{ secrets.DOCKERHUB_TOKEN }}
+        run: docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Push image
-        run: docker push zivkovicf/devops-academy:03-pipelines
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/devops-academy:03-pipelines
