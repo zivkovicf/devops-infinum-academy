@@ -35,6 +35,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
+          context: ./academy_project/app
           push: true
           tags: 03-pipelines
-	  context: ./academy_app/app
