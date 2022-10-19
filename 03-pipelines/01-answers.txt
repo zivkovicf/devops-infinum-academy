@@ -22,4 +22,5 @@
 - What is the current "Artifact and log retention" of GitHub actions for your repository?
 	90 days
   - Is there a more sane and cost-efficient setting you would recommend for this simple project?
+	Use one job for build, tag and push, for example this action https://github.com/docker/build-push-action, significant time reduction because there is no need to upload/download artifacts in every job.
 	Use cache while building image in github actions to reduce time needed for build. Lower time -> less minutes -> cheaper
