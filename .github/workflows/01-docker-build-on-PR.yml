@@ -11,6 +11,7 @@ on:
     paths:
       - "academy_project/app/src/**"
       - "academy_project/app/Dockerfile"
+  workflow_dispatch
 
 jobs:
 
