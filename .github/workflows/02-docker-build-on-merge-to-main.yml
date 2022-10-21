@@ -1,6 +1,7 @@
 name: 02-docker-build-on-merge-to-main
 
 on:
+  workflow_dispatch:
   pull_request:
     types:
       - closed
@@ -11,7 +12,7 @@ on:
 jobs:
 
   build:
-    if: github.event.pull_request.merged == true
+    #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       -
@@ -33,3 +34,13 @@ jobs:
           context: ./academy_project/app
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-academy:latest
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ULR }}
