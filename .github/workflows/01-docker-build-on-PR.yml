@@ -38,7 +38,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-academy:latest
       - 
-      name: Report status
+        name: Report status
         if: always()
         uses: ravsamhq/notify-slack-action@v2
         with:
