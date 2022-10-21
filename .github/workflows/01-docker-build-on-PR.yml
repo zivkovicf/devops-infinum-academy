@@ -37,15 +37,11 @@ jobs:
           context: ./academy_project/app
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-academy:latest
-
-  notify:
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    needs: build
-    steps:
-      - name: Report status
+      - 
+      name: Report status
+        if: always()
         uses: ravsamhq/notify-slack-action@v2
         with:
-          status: ${{ needs.build.status }}
+          status: ${{ job.status }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ULR }}
