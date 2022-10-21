@@ -47,6 +47,6 @@ jobs:
       - name: Report status
         uses: ravsamhq/notify-slack-action@v2
         with:
-          status: ${{ jobs.build.result }}
+          status: ${{ needs.build.status }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ULR }}
