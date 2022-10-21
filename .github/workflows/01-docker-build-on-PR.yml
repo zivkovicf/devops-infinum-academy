@@ -1,7 +1,6 @@
 name: 01-docker-build-on-PR
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "homework/*" ]
     paths:
@@ -37,11 +36,3 @@ jobs:
           context: ./academy_project/app
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-academy:latest
-      - 
-        name: Report status
-        if: always()
-        uses: ravsamhq/notify-slack-action@v2
-        with:
-          status: ${{ job.status }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ULR }}
