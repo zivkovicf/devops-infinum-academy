@@ -9,7 +9,7 @@ namespace IA.DevOps.Movies.Data.AwsS3
 {
     public abstract class BlobStorageRepository : IBlobStorageRepository
     {
-        public abstract string BucketName { get; }
+        protected string BucketName { get; set; } = default!;
         public abstract double ExpiresMins { get; }
 
         private readonly AmazonS3Client _awsS3Client;

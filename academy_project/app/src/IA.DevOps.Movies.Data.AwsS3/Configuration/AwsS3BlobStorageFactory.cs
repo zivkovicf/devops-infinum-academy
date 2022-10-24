@@ -22,10 +22,14 @@ namespace IA.DevOps.Movies.Data.AwsS3.Configuration
                 ForcePathStyle = true
             };
 
-            return new AmazonS3Client(
-                awsAccessKeyId: _awsS3Settings.AccessKeyId,
-                awsSecretAccessKey: _awsS3Settings.SecretAccessKey,
-                clientConfig: awsS3Config);
+            var useAwsS3OverIAMRole = string.IsNullOrEmpty(_awsS3Settings.AccessKeyId) && string.IsNullOrEmpty(_awsS3Settings.SecretAccessKey);
+
+            return useAwsS3OverIAMRole ?
+                new AmazonS3Client() :
+                new AmazonS3Client(
+                    awsAccessKeyId: _awsS3Settings.AccessKeyId,
+                    awsSecretAccessKey: _awsS3Settings.SecretAccessKey,
+                    clientConfig: awsS3Config);
         }
     }
 }

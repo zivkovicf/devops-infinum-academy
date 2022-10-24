@@ -6,5 +6,6 @@
         public string SecretAccessKey { get; set; } = default!;
         public string Region { get; set; } = default!;
         public string ServiceURL { get; set; } = default!;
+        public string BucketName { get; set; } = default!;
     }
 }

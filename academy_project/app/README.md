@@ -19,6 +19,7 @@ AWS__S3__AccessKeyID: "000000"
 AWS__S3__SecretAccessKey: "000000"
 AWS__S3__Region: "us-east-1"
 AWS__S3__ServiceURL: "http://localhost:4566"
+AWS__S3__BucketName: "movies"
 ```
 
 
