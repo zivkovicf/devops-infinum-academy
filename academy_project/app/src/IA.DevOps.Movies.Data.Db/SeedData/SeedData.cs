@@ -13,6 +13,8 @@ namespace IA.DevOps.Movies.Data.Db.SeedData
 {
     public static class SeedData
     {
+        private static readonly int TotalNumberOfSeededRows = 10;
+
         public async static Task Initialize(IServiceProvider serviceProvider)
         {
             using var context = new MoviesDbContext(serviceProvider.GetRequiredService<DbContextOptions<MoviesDbContext>>());
@@ -47,7 +49,7 @@ namespace IA.DevOps.Movies.Data.Db.SeedData
                 };
 
                 var csvReader = new CsvReader(reader, csvConfiguration);
-                var csvMovies = csvReader.GetRecords<MovieCSV>();
+                var csvMovies = csvReader.GetRecords<MovieCSV>().Take(TotalNumberOfSeededRows);
 
                 foreach (var csvMovie in csvMovies)
                 {
