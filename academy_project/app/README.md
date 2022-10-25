@@ -33,5 +33,5 @@ AWS__S3__SecretAccessKey: "000000" // optional
 AWS__S3__Region: "us-east-1"
 AWS__S3__ServiceURL: "https://mybucket.s3.eu-central-1.amazonaws.com"
 
-AWS__S3__BucketName: "applicataion-bucket"
+AWS__S3__BucketName: "mybucket"
 ```
