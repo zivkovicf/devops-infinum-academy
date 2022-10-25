@@ -38,5 +38,5 @@ jobs:
           ECR_REPOSITORY: academy
           IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./academy_project/app
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
