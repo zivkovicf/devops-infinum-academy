@@ -27,8 +27,11 @@ AWS__S3__BucketName: "movies"
 
 ```
 ConnectionStrings__MoviesDb: "Host=localhost;Username=postgres;Database=movies_development"
-AWS__S3__AccessKeyID: "000000"
-AWS__S3__SecretAccessKey: "000000"
+AWS__S3__AccessKeyID: "000000" // optional 
+AWS__S3__SecretAccessKey: "000000" // optional
+
 AWS__S3__Region: "us-east-1"
-AWS__S3__ServiceURL: "http://localhost:4566"
+AWS__S3__ServiceURL: "https://mybucket.s3.eu-central-1.amazonaws.com"
+
+AWS__S3__BucketName: "applicataion-bucket"
 ```
