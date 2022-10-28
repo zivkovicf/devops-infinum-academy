@@ -1,0 +1,22 @@
+RDS -> create database
+
+Filling form
+Choose a database creation method  -> standard create
+Engine options -> postgresql
+templates -> free tier
+fill db identifier, root user and pw
+Instance configuration -> db.t3.micro
+storage -> general purpose SSG (gp2) 200gb
+Connectivity -> connect to EC2 resource
+select ec2 instance
+no public acces, default vpc
+CREATE DB
+
+after rds is up, install postgresql cli and connect to rds db
+psql    --host=database-1.cxopxltsbucg.us-east-1.rds.amazonaws.com    --port=5432    --username=postgres    --password
+create new user, and new database. Grant access to new user on new database.
+
+update ConnectionStrings__MoviesDb to use rds with new user and new db and create new container. 
+
+To test, added new movie and restarted container. All movies are present, but images are gone. Next step is to connect S3 bucket to persist images :)
+
