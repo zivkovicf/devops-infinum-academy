@@ -14,7 +14,15 @@ on:
 
 jobs:
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Run test
+        run: dotnet test --logger:"console;verbosity=normal" academy_project/app/src/IA.DevOps.Movies.Services.Tests/IA.DevOps.Movies.Services.Tests.csproj
+
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       -
