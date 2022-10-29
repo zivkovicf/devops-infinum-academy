@@ -18,8 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
+        name: Checkout 
+        uses: actions/checkout@v3
+      -
         name: Run test
-        run: dotnet test --logger:"console;verbosity=normal" academy_project/app/src/IA.DevOps.Movies.Services.Tests/IA.DevOps.Movies.Services.Tests.csproj
+        run: dotnet test --logger:"console;verbosity=normal" ./academy_project/app/src/IA.DevOps.Movies.Services.Tests/IA.DevOps.Movies.Services.Tests.csproj
 
   build:
     needs: test
