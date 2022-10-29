@@ -1,38 +1,39 @@
 name: 03-docker-security-scan
 
-on: 
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
 
   image-scan:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: build local container
-      uses: docker/build-push-action@v2
-      with:
-        tags: ${{ secrets.DOCKERHUB_USER }}/devops-academy:latest
-        push: false
-        load: true
-
-    - name: Scan image
-      uses: anchore/scan-action@v3
-      with:
-        image: "${{ secrets.DOCKERHUB_USER }}/devops-academy:latest"
-   
+      - 
+        name: Checkout
+        uses: actions/checkout@v3
+      - 
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - 
+        name: build local container
+        uses: docker/build-push-action@v2
+        with:
+          tags: ${{ secrets.DOCKERHUB_USER }}/devops-academy:latest
+          push: false
+          load: true
+      - 
+        name: Scan image
+        uses: anchore/scan-action@v3
+        with:
+          image: "${{ secrets.DOCKERHUB_USER }}/devops-academy:latest"
+    
    application-scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - 
+        name: Checkout
         uses: actions/checkout@v3
-
-      - name: Scan current project
+      - 
+        name: Scan current project
         uses: anchore/scan-action@v3
         with:
           path: "academy_project/app"
