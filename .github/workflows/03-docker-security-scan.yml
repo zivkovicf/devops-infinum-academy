@@ -1,8 +1,10 @@
 name: 03-docker-security-scan
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
 
 jobs:
+
   image-scan:
     runs-on: ubuntu-latest
     steps:
