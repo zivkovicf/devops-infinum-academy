@@ -1,0 +1,31 @@
+configuring AWS cli
+
+top right corner click on username -> security credentials
+Access keys for CLI, SDK, & API access -> create access key, download key and run aws configure, set acces key id, access key secret, region and output format.
+
+test -> aws ec2 describe-vpcs 
+response:
+
+{
+    "Vpcs": [
+        {
+            "CidrBlock": "172.31.0.0/16",
+            "DhcpOptionsId": "dopt-0c90dbca05c9336d4",
+            "State": "available",
+            "VpcId": "vpc-026bfa3e4fa13075f",
+            "OwnerId": "481078911083",
+            "InstanceTenancy": "default",
+            "CidrBlockAssociationSet": [
+                {
+                    "AssociationId": "vpc-cidr-assoc-09038409b6c4085e3",
+                    "CidrBlock": "172.31.0.0/16",
+                    "CidrBlockState": {
+                        "State": "associated"
+                    }
+                }
+            ],
+            "IsDefault": true
+        }
+    ]
+}
+
