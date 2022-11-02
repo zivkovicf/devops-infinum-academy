@@ -14,8 +14,18 @@ on:
 
 jobs:
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout 
+        uses: actions/checkout@v3
+      -
+        name: Run test
+        run: dotnet test --logger:"console;verbosity=normal" ./academy_project/app/src/IA.DevOps.Movies.Services.Tests/IA.DevOps.Movies.Services.Tests.csproj
+
   build:
-    if: github.event.pull_request.merged == true
+    needs: test
     runs-on: ubuntu-latest
     steps:
       -
