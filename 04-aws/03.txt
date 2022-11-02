@@ -1,0 +1,18 @@
+create repository
+
+private
+
+repository name: 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy
+
+push image
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 481078911083.dkr.ecr.us-east-1.amazonaws.com  -> docker login
+docker build -t academy .
+docker tag academy:latest 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest
+docker push 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest
+
+
+Create new IAM User and utillize it to push your image from GHA job to your ECR repo. (Upgrade your workflow from third homework)
+IAM -> users -> add user -> check Access key - Programmatic access -> create policy to give read/write acces to ecr
+
+Update workflow with new user credentials in GHA, acces key and acces key secret in GHA secrets.
+

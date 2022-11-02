@@ -1,0 +1,42 @@
+EC2 service -> instances -> launch instance -> fill name, select ubuntu image, instance type, add key pair for login, add to default VPC allow ssh traffic, 30gb gp3 disk
+
+ssh ubuntu@public_ip
+configure and download docker cli
+
+docker pull nginx
+docker run -p8080:80 -d nginx
+
+add new inbound rule, allow traffic from everywhere to port 8080
+
+To allow pulling from ECR without IAM credentials we need to create new role, name it EC2FullAccesToECR.
+
+Allow EC2 to assume role by adding folowing to Trust relationships:
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+
+and attach permission AmazonEC2ContainerRegistryFullAccess to newly created role
+
+
+Pulling image from ECR:
+aws ecr get-login-password | docker login --username AWS --password-stdin 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest	-> docker login to ECR
+docker pull 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest									-> pull image from ECR
+docker build 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest								-> build image
+docker run -p80:80 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest								-> start container
+
+Go to EC2 instance in AWS console, add new inbound rule to allow traffic from anywhere to port 80 -> application is now working on EC2 public ip
+
+All containers are available here:
+
+EC2_PUBLIC_IP=44.204.81.140
+NGINX-> port 8080
+MOVIES_APP -> port 80

@@ -1,0 +1,15 @@
+Cloudwatch -> alarms  -> Billing -> create alarm
+
+select metric -> Billing -> Total estimated charge -> select usd
+threshold -> static
+Whenever EstimatedCharges is...  -> Greater
+limit -> 50 USD
+
+Alarm state trigger -> in alarm
+select an existing SNS topic -> server-admin
+
+name -> Billing alarm
+description -> Billing exceeding 50 USD
+save
+
+
