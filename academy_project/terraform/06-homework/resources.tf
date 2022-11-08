@@ -1,3 +1,6 @@
+/////////////////
+//  BEGIN DATA
+////////////////
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -18,6 +21,24 @@ data "aws_vpc" "main" {
   id = var.vpc_id
 }
 
+data "aws_iam_role" "EC2FullAccesToECR" {
+  name = "EC2FullAccesToECR"
+}
+
+data "aws_ecr_repository" "academy" {
+  name = "academy"
+}
+
+
+/////////////////
+//  END DATA
+////////////////
+
+////////////////////
+//  BEGIN RESOURCES
+///////////////////
+
+
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.micro"
@@ -29,8 +50,10 @@ resource "aws_instance" "web" {
     database_password        = random_password.rds_password.result
     database_master_username = aws_db_instance.postgres_db.username
     database_master_password = random_password.rds_master_password.result
-
+    ecr_repository_uri       = data.aws_ecr_repository.academy.repository_url
+    connection_string        = aws_ssm_parameter.connection_string.value
   })
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
   depends_on = [
     aws_key_pair.developer-key,
@@ -106,6 +129,11 @@ resource "random_password" "rds_master_password" {
   special = false
 }
 
+resource "aws_iam_instance_profile" "ec2_profile" {
+  name = "ec2_profile"
+  role = data.aws_iam_role.EC2FullAccesToECR.name
+}
+
 resource "aws_db_instance" "postgres_db" {
   identifier             = "db"
   instance_class         = "db.t3.micro"
@@ -118,6 +146,37 @@ resource "aws_db_instance" "postgres_db" {
   skip_final_snapshot    = true
   vpc_security_group_ids = [aws_security_group.allow_ec2_to_rds.id]
 }
+
+resource "aws_ssm_parameter" "rds_master_password" {
+  name        = "/terraform/database/master_password"
+  description = "Master password for database access"
+  type        = "SecureString"
+  value       = random_password.rds_master_password.result
+}
+
+
+resource "aws_ssm_parameter" "rds_application_password" {
+  name        = "/terraform/database/application_password"
+  description = "Password for database access for application user"
+  type        = "SecureString"
+  value       = random_password.rds_password.result
+}
+
+resource "aws_ssm_parameter" "connection_string" {
+  name        = "/terraform/application/connection_string"
+  description = "Application connection string to database"
+  type        = "SecureString"
+  value       = "Host=${aws_db_instance.postgres_db.address};Username=${var.database_username};Database=movies;Password=${random_password.rds_password.result}"
+}
+
+//////////////////
+//  END RESOURCES
+/////////////////
+
+////////////////////
+//  BEGIN VARIABLES
+///////////////////
+
 
 variable "vpc_id" {
   description = "ID of default VPC"
@@ -133,3 +192,9 @@ variable "database_username" {
   type        = string
   default     = "application_user"
 }
+
+
+//////////////////
+//  END VARIABLES
+/////////////////
+

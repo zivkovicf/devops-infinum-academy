@@ -13,9 +13,7 @@ CREATE USER ${database_username} WITH ENCRYPTED PASSWORD '${database_password}';
 CREATE DATABASE movies;
 GRANT ALL PRIVILEGES ON DATABASE movies TO ${database_username};
 EOF
-#aws ecr get-login-password | docker login --username AWS --password-stdin 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest
-#docker pull 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest
-#docker run -p80:80 481078911083.dkr.ecr.us-east-1.amazonaws.com/academy:latest
-docker pull nginx
-docker run -p80:80 -d nginx
-echo ConnectionStrings__MoviesDb="Host=${database_url};Username=${database_username};Database=movies;Password=${database_password}" >> .env
+aws ecr get-login-password | docker login --username AWS --password-stdin ${ecr_repository_uri}
+docker pull ${ecr_repository_uri}
+echo ConnectionStrings__MoviesDb="${connection_string}" >> /home/ubuntu/.env
+docker run -p80:80 --env-file /home/ubuntu/.env -d ${ecr_repository_uri}
