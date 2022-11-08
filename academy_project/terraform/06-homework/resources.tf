@@ -52,6 +52,9 @@ resource "aws_instance" "web" {
     database_master_password = random_password.rds_master_password.result
     ecr_repository_uri       = data.aws_ecr_repository.academy.repository_url
     connection_string        = aws_ssm_parameter.connection_string.value
+    s3_name                  = aws_ssm_parameter.s3_bucket_name.value
+    s3_url                   = aws_ssm_parameter.s3_bucket_url.value
+    s3_region                = aws_s3_bucket.bucket.region
   })
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
@@ -168,6 +171,39 @@ resource "aws_ssm_parameter" "connection_string" {
   type        = "SecureString"
   value       = "Host=${aws_db_instance.postgres_db.address};Username=${var.database_username};Database=movies;Password=${random_password.rds_password.result}"
 }
+
+resource "aws_s3_bucket" "bucket" {
+}
+resource "aws_s3_bucket_public_access_block" "example" {
+  bucket = aws_s3_bucket.bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = false
+  ignore_public_acls      = true
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_ssm_parameter" "s3_bucket_name" {
+  name        = "/terraform/s3/name"
+  description = "Name(id) of the s3 bucket"
+  type        = "String"
+  value       = aws_s3_bucket.bucket.id
+}
+//hacky beacuse this issue is only for region us-east-1 , according to this GH issue https://github.com/hashicorp/terraform-provider-aws/issues/15102
+resource "aws_ssm_parameter" "s3_bucket_url" {
+  name        = "/terraform/s3/url"
+  description = "Url of the s3 bucket"
+  type        = "String"
+  value       = format("https://%s", replace(aws_s3_bucket.bucket.bucket_regional_domain_name, "s3.amazonaws.com", "s3.${aws_s3_bucket.bucket.region}.amazonaws.com"))
+}
+
 
 //////////////////
 //  END RESOURCES
