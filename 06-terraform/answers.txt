@@ -1,0 +1,18 @@
+What terraform providers do?
+	terraform providers "translate" hcl language into api calls to defined provider.
+What is terraform resource block?
+	Resource block describes one or more infrastructure objects such as instance, rds, vpc, subnets, security groups and many more. Resource defined in resource block is managed by terraform.
+What is terraform data source and what is its use case?
+	Data sources in Terraform are used to get information about resources external to Terraform, and use them to set up your Terraform resources. Resources defined in data source are not managed by terraform.
+What is a terraform variable and what is its purpose?
+	Variable is set of data like in many programming languages. It's purpose is to customize module to achieve reusability without modification of modules configuration.
+Which types of terraform variables we can use?
+	There are 3 types of variables in terrafor: input, output and local.
+What is terraform output?
+	Terraform output allows exporting structured data about resources, that can be used elsewhere for configuring other parts. For example we can output public addres of ec2 for ssh connecting and many more usages.
+What is the use case for terraform.auto.tfvars file?
+	To pass values to variables without user interaction. When performing terraform apply user is prompted to provide value for variable if there is no default value or if there is no value in terraform.auto.tfvars file.
+What is stored in terraform.tfstate file?
+	Information of our infrastructure managed by terraform, it contains all parameters and configurations.  
+Which terraform command do we need to run after provider setup?
+	terraform init -> this command downloads/updates defined provider(s).
