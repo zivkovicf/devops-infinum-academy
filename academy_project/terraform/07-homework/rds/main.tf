@@ -47,5 +47,10 @@ resource "aws_ssm_parameter" "rds_password" {
 }
 
 
-
+resource "aws_ssm_parameter" "rds_connection_string" {
+  name        = "/terraform/db/${aws_db_instance.postgres_db.identifier}/connection_string"
+  description = "Connection string for application"
+  type        = "SecureString"
+  value       = "Host=${aws_db_instance.postgres_db.address};Username=${var.database_username};Database=${var.db_name};Password=${random_password.rds_password.result}"
+}
 

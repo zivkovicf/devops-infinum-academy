@@ -54,25 +54,46 @@ resource "aws_iam_role" "ecsTaskExecutionPolicy" {
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
     "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess",
-    aws_iam_policy.readSSMParameterStore.arn
+  ]
+  inline_policy {
+    name = "readSSMParameterStore"
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action   = ["ssm:GetParameters"]
+          Effect   = "Allow"
+          Resource = "*"
+        },
+      ]
+    })
+  }
+
+  inline_policy {
+    name = "readSSMParameterStore"
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action   = ["ssm:GetParameters"]
+          Effect   = "Allow"
+          Resource = "*"
+        },
+      ]
+    })
+  }
+}
+
+resource "aws_iam_role" "ecsTaskFullAccesToS3" {
+  name               = "ecsTaskFullAccesToS3"
+  description        = "Allows ECS tasks to call AWS services on your behalf."
+  assume_role_policy = data.aws_iam_policy_document.ecs-task-assume-role-policy.json
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
   ]
 }
-
-resource "aws_iam_policy" "readSSMParameterStore" {
-  name = "readSSMParameterStore"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action   = ["ssm:GetParameters"]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
-}
-
 
 
 resource "aws_cloudwatch_metric_alarm" "billing_alarm" {
