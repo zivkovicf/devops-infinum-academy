@@ -10,9 +10,6 @@ data "aws_ecr_repository" "academy_ecr" {
   name = "academy"
 }
 
-data "aws_iam_role" "service_role" {
-  name = "AWSServiceRoleForECS"
-}
 
 module "vpc" {
   source             = "./vpc"
@@ -28,10 +25,6 @@ module "rds" {
   db_name                  = "movies"
   source_security_group_id = aws_security_group.allow_db_traffic.id
   subnet_ids               = module.vpc.subnets_private
-  depends_on = [
-    aws_security_group.allow_db_traffic,
-    module.vpc
-  ]
 }
 
 module "s3" {
@@ -162,7 +155,7 @@ resource "aws_lb" "lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_db_traffic.id]
-  subnets            = [for subnet in module.vpc.subnets_public : subnet]
+  subnets            = module.vpc.subnets_public
 
   enable_deletion_protection = true
 }
