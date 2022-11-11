@@ -58,7 +58,6 @@ resource "aws_route_table_association" "public_subnet_route_table_association" {
 
 ## Routing Private
 resource "aws_route_table" "private_route_table" {
-  count  = length(data.aws_availability_zones.available.names)
   vpc_id = aws_vpc.main.id
 }
 
@@ -66,11 +65,11 @@ resource "aws_route" "private_route_nat" {
   count                  = var.enable_nat_gateway ? 1 : 0
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat_gateway[0].id
-  route_table_id         = aws_route_table.private_route_table[count.index].id
+  route_table_id         = aws_route_table.private_route_table.id
 }
 
 resource "aws_route_table_association" "private_subnet_route_table_association" {
   count          = length(data.aws_availability_zones.available.names)
   subnet_id      = aws_subnet.private_subnet[count.index].id
-  route_table_id = aws_route_table.private_route_table[count.index].id
+  route_table_id = aws_route_table.private_route_table.id
 }
