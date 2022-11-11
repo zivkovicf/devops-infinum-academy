@@ -54,6 +54,15 @@ resource "aws_security_group_rule" "allow_inb_traffic_lb" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "allow_outbound" {
+  type              = "egress"
+  security_group_id = aws_security_group.allow_db_traffic.id
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 resource "aws_security_group_rule" "allow_egress_to_ecs" {
   type                     = "egress"
   security_group_id        = aws_security_group.lb_sg.id
