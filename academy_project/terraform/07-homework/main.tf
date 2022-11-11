@@ -81,17 +81,6 @@ resource "aws_security_group_rule" "allow_inbound_traffic" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "allow_outbound" {
-  type              = "egress"
-  security_group_id = aws_security_group.allow_db_traffic.id
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
-
-
 resource "aws_ecs_task_definition" "task_definition" {
   family                   = "academy"
   task_role_arn            = data.aws_iam_role.task_role.arn
