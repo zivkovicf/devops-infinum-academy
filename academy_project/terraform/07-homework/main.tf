@@ -67,40 +67,38 @@ resource "aws_ecs_task_definition" "task_definition" {
   network_mode             = "awsvpc"
   cpu                      = 512
   memory                   = 1024
-  container_definitions    = <<TASK_DEFINITION
-[
+  container_definitions    = jsonencode([
   {
-    "name": "app",
-    "image": "${data.aws_ecr_repository.academy_ecr.repository_url}:latest",
-    "cpu": 512,
-    "memory": 256,
-    "memoryReservation": 256,
-    "essential": true,
-     "portMappings": [
+    name              = "app",
+    image             = "${data.aws_ecr_repository.academy_ecr.repository_url}:latest",
+    cpu               = 512,
+    memory            = 256,
+    memoryReservation = 256,
+    essential         = true,
+    portMappings = [
       {
-        "containerPort": 80,
-        "hostPort": 80,
-        "protocol": "tcp"
+        containerPort = 80,
+        hostPort      = 80,
+        protocol      = "tcp"
       }
     ],
-    "healthCheck": {
-      "command": ["CMD-SHELL","echo works"],
-      "interval": 30,
-      "timeout": 5,
-      "startPeriod": 20,
-      "retries": 5
+    healthCheck = {
+      command     = ["CMD-SHELL","echo works"],
+      interval    = 30,
+      timeout     = 5,
+      startPeriod = 20,
+      retries     = 5
     },
-    "environment": [
-      {"name": "AWS__S3__Region", "value": "us-east-1" },
-      {"name": "AWS__S3__BucketName", "value": "${module.s3.s3_bucket_name}" },
-      {"name": "AWS__S3__ServiceURL", "value": "${module.s3.s3_bucket_url}" }
+    environment = [
+      {name = "AWS__S3__Region", value = "us-east-1" },
+      {name = "AWS__S3__BucketName", value = "${module.s3.s3_bucket_name}" },
+      {name = "AWS__S3__ServiceURL", value = "${module.s3.s3_bucket_url}" }
     ],
-    "secrets": [
-      {"valueFrom": "${module.rds.ssm_connection_string}", "name": "ConnectionStrings__MoviesDb"}
+    secrets = [
+      {valueFrom = "${module.rds.ssm_connection_string}", name = "ConnectionStrings__MoviesDb"}
     ]
   }
-]
-TASK_DEFINITION
+])
 
   runtime_platform {
     operating_system_family = "LINUX"
