@@ -39,6 +39,39 @@ resource "aws_security_group" "allow_db_traffic" {
 
 }
 
+resource "aws_security_group" "lb_sg" {
+  name        = "lb_sg"
+  description = "Security group for load balancer"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "allow_inb_traffic_lb" {
+  type              = "ingress"
+  security_group_id = aws_security_group.lb_sg.id
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "allow_egress_to_ecs" {
+  type                     = "egress"
+  security_group_id        = aws_security_group.lb_sg.id
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.allow_db_traffic.id
+}
+
+resource "aws_security_group_rule" "allow_ecs_from_lb" {
+  type                     = "ingress"
+  security_group_id        = aws_security_group.allow_db_traffic.id
+  source_security_group_id = aws_security_group.lb_sg.id
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+}
+
 resource "aws_security_group_rule" "allow_inbound_traffic" {
   type              = "ingress"
   security_group_id = aws_security_group.allow_db_traffic.id
@@ -152,7 +185,7 @@ resource "aws_lb" "lb" {
   name               = "application-lb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.allow_db_traffic.id]
+  security_groups    = [aws_security_group.lb_sg.id]
   subnets            = module.vpc.subnets_public
 
   enable_deletion_protection = true
